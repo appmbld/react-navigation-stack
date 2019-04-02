@@ -750,6 +750,7 @@ class StackViewLayout extends React.Component<Props, State> {
       this.goBack(immediateIndex, goBackDuration);
       return;
     }
+  }
 
     // Then filter based on the distance the screen was moved. Over a third of the way swiped,
     // and the back will happen.
