@@ -659,11 +659,8 @@ class StackViewLayout extends React.Component<Props, State> {
       transitionProps: { navigation, position, layout },
     } = this.props;
     const { index } = navigation.state;
-<<<<<<< HEAD:src/views/StackView/StackViewLayout.tsx
     const immediateIndex =
       this.immediateIndex == null ? index : this.immediateIndex;
-=======
->>>>>>> Linting passed.:src/views/StackView/StackViewLayout.js
 
     // Calculate animate duration according to gesture speed and moved distance
     // @ts-ignore
@@ -686,7 +683,6 @@ class StackViewLayout extends React.Component<Props, State> {
     position.setValue(value);
     this.positionSwitch.setValue(1);
 
-<<<<<<< HEAD:src/views/StackView/StackViewLayout.tsx
     // If the speed of the gesture release is significant, use that as the indication
     // of intent
     if (gestureVelocity < -50) {
@@ -698,34 +694,6 @@ class StackViewLayout extends React.Component<Props, State> {
       this.props.onGestureEnd && this.props.onGestureEnd();
       this.goBack(immediateIndex, goBackDuration);
       return;
-=======
-    const shouldGoBackCriterion =
-      gestureVelocity > 50 || value <= index - POSITION_THRESHOLD;
-
-    if (shouldGoBackCriterion && this.props.onActionBeforeSwipeBack) {
-      this.props.onActionBeforeSwipeBack({
-        onContinue: () =>
-          this._navigateWithGesture(
-            this.props.onGestureEnd,
-            goBackDuration,
-            true
-          ),
-        onCancel: () =>
-          this._navigateWithGesture(
-            this.props.onGestureCanceled,
-            resetDuration,
-            false
-          ),
-      });
-    } else if (shouldGoBackCriterion) {
-      this._navigateWithGesture(this.props.onGestureEnd, goBackDuration, true);
-    } else {
-      this._navigateWithGesture(
-        this.props.onGestureCanceled,
-        resetDuration,
-        false
-      );
->>>>>>> Linting passed.:src/views/StackView/StackViewLayout.js
     }
   }
 
