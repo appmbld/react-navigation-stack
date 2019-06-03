@@ -683,6 +683,7 @@ class StackViewLayout extends React.Component<Props, State> {
     position.setValue(value);
     this.positionSwitch.setValue(1);
 
+<<<<<<< HEAD:src/views/StackView/StackViewLayout.tsx
     // If the speed of the gesture release is significant, use that as the indication
     // of intent
     if (gestureVelocity < -50) {
@@ -694,8 +695,23 @@ class StackViewLayout extends React.Component<Props, State> {
       this.props.onGestureEnd && this.props.onGestureEnd();
       this.goBack(immediateIndex, goBackDuration);
       return;
-    }
+=======
+    const shouldGoBackCriterion = gestureVelocity > 50 || value <= index - POSITION_THRESHOLD;
 
+    if (shouldGoBackCriterion && this.props.onActionBeforeSwipeBack) {
+      this.props.onActionBeforeSwipeBack({
+        onContinue: () => this._navigateWithGesture(this.props.onGestureEnd, goBackDuration, true),
+        onCancel: () => this._navigateWithGesture(this.props.onGestureCanceled, resetDuration, false)
+      });
+    } else if (shouldGoBackCriterion) {
+      this._navigateWithGesture(this.props.onGestureEnd, goBackDuration, true);
+    } else {
+      this._navigateWithGesture(this.props.onGestureCanceled, resetDuration, false);
+>>>>>>> Update horizontal swipe back action.:src/views/StackView/StackViewLayout.js
+    }
+  }
+
+<<<<<<< HEAD:src/views/StackView/StackViewLayout.tsx
     // Then filter based on the distance the screen was moved. Over a third of the way swiped,
     // and the back will happen.
     if (value <= index - POSITION_THRESHOLD) {
@@ -704,6 +720,22 @@ class StackViewLayout extends React.Component<Props, State> {
     } else {
       this.props.onGestureCanceled && this.props.onGestureCanceled();
       this.reset(immediateIndex, resetDuration);
+=======
+  _getImmediateIndex() {
+    const { index } = this.props.transitionProps.navigation.state;
+    const immediateIndex =
+      this._immediateIndex == null ? index : this._immediateIndex;
+
+    return immediateIndex;
+  }
+
+  _navigateWithGesture(gestureAction, duration, isGoingBack) {
+    gestureAction && gestureAction();
+    if (isGoingBack) {
+      this._goBack(this._getImmediateIndex(), duration);
+    } else {
+      this._reset(this._getImmediateIndex(), duration);
+>>>>>>> Update horizontal swipe back action.:src/views/StackView/StackViewLayout.js
     }
   }
 
@@ -742,24 +774,41 @@ class StackViewLayout extends React.Component<Props, State> {
     // of intent
     if (gestureVelocity < -50) {
       this.props.onGestureCanceled && this.props.onGestureCanceled();
+<<<<<<< HEAD:src/views/StackView/StackViewLayout.tsx
       this.reset(immediateIndex, resetDuration);
+=======
+      this._reset(immediateIndex, resetDuration);
+>>>>>>> Update horizontal swipe back action.:src/views/StackView/StackViewLayout.js
       return;
     }
     if (gestureVelocity > 50) {
       this.props.onGestureEnd && this.props.onGestureEnd();
+<<<<<<< HEAD:src/views/StackView/StackViewLayout.tsx
       this.goBack(immediateIndex, goBackDuration);
       return;
     }
   }
+=======
+      this._goBack(immediateIndex, goBackDuration);
+      return;
+    }
+>>>>>>> Update horizontal swipe back action.:src/views/StackView/StackViewLayout.js
 
     // Then filter based on the distance the screen was moved. Over a third of the way swiped,
     // and the back will happen.
     if (value <= index - POSITION_THRESHOLD) {
       this.props.onGestureEnd && this.props.onGestureEnd();
+<<<<<<< HEAD:src/views/StackView/StackViewLayout.tsx
       this.goBack(immediateIndex, goBackDuration);
     } else {
       this.props.onGestureCanceled && this.props.onGestureCanceled();
       this.reset(immediateIndex, resetDuration);
+=======
+      this._goBack(immediateIndex, goBackDuration);
+    } else {
+      this.props.onGestureCanceled && this.props.onGestureCanceled();
+      this._reset(immediateIndex, resetDuration);
+>>>>>>> Update horizontal swipe back action.:src/views/StackView/StackViewLayout.js
     }
   }
 
