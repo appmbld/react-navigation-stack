@@ -199,3 +199,8 @@ export type Screen = React.ComponentType<any> & {
     [key: string]: any;
   };
 };
+
+export type GesturePauseConfig = {
+  onCancelGesture: () => void;
+  onContinueGesture: () => void;
+};

@@ -41,6 +41,7 @@ import {
   TransitionConfig,
   HeaderTransitionConfig,
   HeaderProps,
+  GesturePauseConfig,
 } from '../../types';
 
 type Props = {
@@ -64,6 +65,7 @@ type Props = {
   ) => HeaderTransitionConfig;
   onGestureBegin?: () => void;
   onGestureEnd?: () => void;
+  onPauseGesture?: (config: GesturePauseConfig) => void;
   onGestureCanceled?: () => void;
   screenProps?: unknown;
 };
@@ -683,28 +685,41 @@ class StackViewLayout extends React.Component<Props, State> {
     position.setValue(value);
     this.positionSwitch.setValue(1);
 
+    const reset = () => {
+      this.props.onGestureCanceled && this.props.onGestureCanceled();
+      this.reset(immediateIndex, resetDuration);
+    };
+
+    const goBack = () => {
+      this.props.onGestureEnd && this.props.onGestureEnd();
+      this.goBack(immediateIndex, goBackDuration);
+    };
+
     // If the speed of the gesture release is significant, use that as the indication
     // of intent
     if (gestureVelocity < -50) {
-      this.props.onGestureCanceled && this.props.onGestureCanceled();
-      this.reset(immediateIndex, resetDuration);
-      return;
+      return reset();
     }
     if (gestureVelocity > 50) {
-      this.props.onGestureEnd && this.props.onGestureEnd();
-      this.goBack(immediateIndex, goBackDuration);
-      return;
+      return this.props.onPauseGesture
+        ? this.props.onPauseGesture({
+            onCancelGesture: reset,
+            onContinueGesture: goBack,
+          })
+        : goBack();
     }
-  }
 
     // Then filter based on the distance the screen was moved. Over a third of the way swiped,
     // and the back will happen.
     if (value <= index - POSITION_THRESHOLD) {
-      this.props.onGestureEnd && this.props.onGestureEnd();
-      this.goBack(immediateIndex, goBackDuration);
+      return this.props.onPauseGesture
+        ? this.props.onPauseGesture({
+            onCancelGesture: reset,
+            onContinueGesture: goBack,
+          })
+        : goBack();
     } else {
-      this.props.onGestureCanceled && this.props.onGestureCanceled();
-      this.reset(immediateIndex, resetDuration);
+      return reset();
     }
   }
 
@@ -739,28 +754,41 @@ class StackViewLayout extends React.Component<Props, State> {
     position.setValue(value);
     this.positionSwitch.setValue(1);
 
+    const reset = () => {
+      this.props.onGestureCanceled && this.props.onGestureCanceled();
+      this.reset(immediateIndex, resetDuration);
+    };
+
+    const goBack = () => {
+      this.props.onGestureEnd && this.props.onGestureEnd();
+      this.goBack(immediateIndex, goBackDuration);
+    };
+
     // If the speed of the gesture release is significant, use that as the indication
     // of intent
     if (gestureVelocity < -50) {
-      this.props.onGestureCanceled && this.props.onGestureCanceled();
-      this.reset(immediateIndex, resetDuration);
-      return;
+      return reset();
     }
     if (gestureVelocity > 50) {
-      this.props.onGestureEnd && this.props.onGestureEnd();
-      this.goBack(immediateIndex, goBackDuration);
-      return;
+      return this.props.onPauseGesture
+        ? this.props.onPauseGesture({
+            onCancelGesture: reset,
+            onContinueGesture: goBack,
+          })
+        : goBack();
     }
-  }
 
     // Then filter based on the distance the screen was moved. Over a third of the way swiped,
     // and the back will happen.
     if (value <= index - POSITION_THRESHOLD) {
-      this.props.onGestureEnd && this.props.onGestureEnd();
-      this.goBack(immediateIndex, goBackDuration);
+      return this.props.onPauseGesture
+        ? this.props.onPauseGesture({
+            onCancelGesture: reset,
+            onContinueGesture: goBack,
+          })
+        : goBack();
     } else {
-      this.props.onGestureCanceled && this.props.onGestureCanceled();
-      this.reset(immediateIndex, resetDuration);
+      return reset();
     }
   }
 

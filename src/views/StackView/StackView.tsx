@@ -10,6 +10,7 @@ import {
   NavigationConfig,
   TransitionProps,
   Scene,
+  GesturePauseConfig,
 } from '../../types';
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
   navigationConfig: NavigationConfig;
   onTransitionStart?: () => void;
   onGestureBegin?: () => void;
+  onPauseGesture?: (config: GesturePauseConfig) => void;
   onGestureCanceled?: () => void;
   onGestureEnd?: () => void;
   screenProps?: unknown;
@@ -106,6 +108,7 @@ class StackView extends React.Component<Props> {
         cardOverlayEnabled={this.getCardOverlayEnabled()}
         onGestureBegin={this.props.onGestureBegin}
         onGestureCanceled={this.props.onGestureCanceled}
+        onPauseGesture={this.props.onPauseGesture}
         onGestureEnd={this.props.onGestureEnd}
         screenProps={screenProps}
         transitionProps={transitionProps}
