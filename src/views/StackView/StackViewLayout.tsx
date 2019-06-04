@@ -456,12 +456,13 @@ class StackViewLayout extends React.Component<Props, State> {
   }
 
   private isTrackingGesturesVelocity() {
+    // Support tracking gestures velocity by default
     const trackGestureVelocity = this.props.transitionProps.scene.descriptor
       .options.trackGesturesVelocity;
 
     return typeof trackGestureVelocity === 'boolean'
       ? trackGestureVelocity
-      : false;
+      : true;
   }
 
   private isMotionVertical() {
