@@ -131,6 +131,7 @@ export type NavigationConfig = {
     prevTransitionProps?: TransitionProps,
     isModal?: boolean
   ) => HeaderTransitionConfig;
+  onPauseGesture?: (config: GesturePauseConfig) => void;
 };
 
 export type SceneDescriptor = {

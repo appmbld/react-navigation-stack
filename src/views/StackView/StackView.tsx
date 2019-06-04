@@ -96,6 +96,13 @@ class StackView extends React.Component<Props> {
       : DefaultNavigationConfig.cardOverlayEnabled;
   };
 
+  private getPauseGesture() {
+    const { navigationConfig } = this.props;
+    return navigationConfig && navigationConfig.hasOwnProperty('onPauseGesture')
+      ? navigationConfig.onPauseGesture
+      : undefined;
+  }
+
   private renderStackviewLayout = (
     transitionProps: TransitionProps,
     lastTransitionProps?: TransitionProps
@@ -108,7 +115,7 @@ class StackView extends React.Component<Props> {
         cardOverlayEnabled={this.getCardOverlayEnabled()}
         onGestureBegin={this.props.onGestureBegin}
         onGestureCanceled={this.props.onGestureCanceled}
-        onPauseGesture={this.props.onPauseGesture}
+        onPauseGesture={this.getPauseGesture()}
         onGestureEnd={this.props.onGestureEnd}
         screenProps={screenProps}
         transitionProps={transitionProps}
