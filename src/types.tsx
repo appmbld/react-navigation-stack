@@ -112,6 +112,7 @@ export type NavigationStackOptions = {
     vertical: number;
     horizontal: number;
   };
+  trackGesturesVelocity?: boolean;
   disableKeyboardHandling?: boolean;
 };
 

@@ -455,6 +455,15 @@ class StackViewLayout extends React.Component<Props, State> {
       : Platform.OS === 'ios';
   }
 
+  private isTrackingGesturesVelocity() {
+    const trackGestureVelocity = this.props.transitionProps.scene.descriptor
+      .options.trackGesturesVelocity;
+
+    return typeof trackGestureVelocity === 'boolean'
+      ? trackGestureVelocity
+      : false;
+  }
+
   private isMotionVertical() {
     return this.isModal();
   }
@@ -695,12 +704,14 @@ class StackViewLayout extends React.Component<Props, State> {
       this.goBack(immediateIndex, goBackDuration);
     };
 
+    const trackGestureVelocity = this.isTrackingGesturesVelocity();
+
     // If the speed of the gesture release is significant, use that as the indication
     // of intent
-    if (gestureVelocity < -50) {
+    if (trackGestureVelocity && gestureVelocity < -50) {
       return reset();
     }
-    if (gestureVelocity > 50) {
+    if (trackGestureVelocity && gestureVelocity > 50) {
       return this.props.onPauseGesture
         ? this.props.onPauseGesture({
             onCancelGesture: reset,
@@ -764,12 +775,14 @@ class StackViewLayout extends React.Component<Props, State> {
       this.goBack(immediateIndex, goBackDuration);
     };
 
+    const trackGesturesVelocity = this.isTrackingGesturesVelocity();
+
     // If the speed of the gesture release is significant, use that as the indication
     // of intent
-    if (gestureVelocity < -50) {
+    if (trackGesturesVelocity && gestureVelocity < -50) {
       return reset();
     }
-    if (gestureVelocity > 50) {
+    if (trackGesturesVelocity && gestureVelocity > 50) {
       return this.props.onPauseGesture
         ? this.props.onPauseGesture({
             onCancelGesture: reset,
